@@ -1,0 +1,111 @@
+<h1>
+  Section #<%= @the_section.id %> details
+</h1>
+
+<article>
+  <div>
+    <a href="/sections">
+      Go back
+    </a>
+  </div>
+
+  <div>
+    <a href="/delete_section/<%= @the_section.id %>">
+      Delete section
+    </a>
+  </div>
+  <dl>
+    <dt>
+      Name
+    </dt>
+    <dd>
+      <%= @the_section.name %>
+    </dd>
+
+    <dt>
+      Article
+    </dt>
+    <dd>
+      <%= @the_section.article_id %>
+    </dd>
+
+    <dt>
+      Placement
+    </dt>
+    <dd>
+      <%= @the_section.placement %>
+    </dd>
+
+    <dt>
+      Text content
+    </dt>
+    <dd>
+      <%= @the_section.text_content %>
+    </dd>
+
+    <dt>
+      Created at
+    </dt>
+    <dd>
+      <%= time_ago_in_words(@the_section.created_at) %> ago
+    </dd>
+
+    <dt>
+      Updated at
+    </dt>
+    <dd>
+      <%= time_ago_in_words(@the_section.updated_at) %> ago
+    </dd>
+  </dl>
+</article>
+
+<hr>
+
+
+<article>
+  <header>
+    <h2>
+      Edit section
+    </h2>
+  </header>
+
+  <form action="/modify_section/<%= @the_section.id %>"  method="post" >
+    <div>
+      <label for="name_box">
+        Name
+      </label>
+
+      <input type="text" id="name_box" name="query_name" value="<%= @the_section.name %>">
+    </div>
+
+    <div>
+      <label for="article_id_box">
+        Article
+      </label>
+
+      <input type="text" id="article_id_box" name="query_article_id" value="<%= @the_section.article_id %>">
+    </div>
+
+    <div>
+      <label for="placement_box">
+        Placement
+      </label>
+
+      <input type="text" id="placement_box" name="query_placement" value="<%= @the_section.placement %>">
+    </div>
+
+    <div>
+      <label for="text_content_box">
+        Text content
+      </label>
+
+      <input type="text" id="text_content_box" name="query_text_content" value="<%= @the_section.text_content %>">
+    </div>
+
+    <button type="submit">
+      Update section
+    </button>
+  </form>
+</article>
+
+<hr>

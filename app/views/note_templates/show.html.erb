@@ -1,0 +1,81 @@
+<h1>
+  Note #<%= @the_note.id %> details
+</h1>
+
+<article>
+  <div>
+    <a href="/notes">
+      Go back
+    </a>
+  </div>
+
+  <div>
+    <a href="/delete_note/<%= @the_note.id %>">
+      Delete note
+    </a>
+  </div>
+  <dl>
+    <dt>
+      Content
+    </dt>
+    <dd>
+      <%= @the_note.content %>
+    </dd>
+
+    <dt>
+      Topic
+    </dt>
+    <dd>
+      <%= @the_note.topic_id %>
+    </dd>
+
+    <dt>
+      Created at
+    </dt>
+    <dd>
+      <%= time_ago_in_words(@the_note.created_at) %> ago
+    </dd>
+
+    <dt>
+      Updated at
+    </dt>
+    <dd>
+      <%= time_ago_in_words(@the_note.updated_at) %> ago
+    </dd>
+  </dl>
+</article>
+
+<hr>
+
+
+<article>
+  <header>
+    <h2>
+      Edit note
+    </h2>
+  </header>
+
+  <form action="/modify_note/<%= @the_note.id %>"  method="post" >
+    <div>
+      <label for="content_box">
+        Content
+      </label>
+
+      <input type="text" id="content_box" name="query_content" value="<%= @the_note.content %>">
+    </div>
+
+    <div>
+      <label for="topic_id_box">
+        Topic
+      </label>
+
+      <input type="text" id="topic_id_box" name="query_topic_id" value="<%= @the_note.topic_id %>">
+    </div>
+
+    <button type="submit">
+      Update note
+    </button>
+  </form>
+</article>
+
+<hr>

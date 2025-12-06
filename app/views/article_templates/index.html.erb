@@ -1,0 +1,59 @@
+<h1>
+  List of all articles
+</h1>
+
+<hr>
+
+<article>
+  <header>
+    <h2>
+      Add a new article
+    </h2>
+  </header>
+
+  <form action="/insert_article" method="post">
+    <div>
+      <label for="topic_id_box">
+        Topic
+      </label>
+
+      <input type="text" id="topic_id_box" name="query_topic_id">
+    </div>
+
+    <div>
+      <label for="title_box">
+        Title
+      </label>
+
+      <input type="text" id="title_box" name="query_title">
+    </div>
+
+    <div>
+      <label for="summary_box">
+        Summary
+      </label>
+
+      <input type="text" id="summary_box" name="query_summary">
+    </div>
+
+    <button type="submit">
+      Create article
+    </button>
+  </form>
+</article>
+
+<hr>
+
+<article>
+  <ul>
+    <% @list_of_articles.each do |an_article| %>
+      <li>
+        <a href="/articles/<%= an_article.id %>">
+          Article #<%= an_article.id %>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+</article>
+
+<hr>
