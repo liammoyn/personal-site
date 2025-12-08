@@ -1,27 +1,70 @@
 <nav style="--bs-breadcrumb-divider: '|';" aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item"><a href="/topics">Home</a></li>
     <li class="breadcrumb-item"><a href=<%= "/topics/#{@the_article.topic_id}"%>>Topic</a></li>
     <li class="breadcrumb-item active" aria-current="page">Article</li>
   </ol>
 </nav>
 
-<h1>
-  <%= @the_article.title %>
-</h1>
-
-<div class="card">
-  <div class="card-body">
-    <%= @the_article.summary %>
+<form action="<%= "/modify_article/#{@the_article.id}" %>" method="post">
+  <input type="text" class="form-control form-control-lg mb-2" style="font-size: 1.75rem" name="query_title" value="<%= @the_article.title %>" />
+  <div class="card mb-3">
+    <textarea class="card-body" nam="query_summary"><%= @the_article.summary %></textarea>
   </div>
+  <button type="submit" class="btn btn-secondary">Save changes</button>
+</form>
+
+<div>
+  <% @list_of_sections.each_with_index do |section, idx| %>
+    <hr>
+    <div class="mb-3">
+      <%= form_with(model: section, url: "/modify_section/#{section.id}", scope: nil, method: "post") do |form| %>
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <div class="d-flex justify-content-start align-items-end flex-grow-1 me-3">
+            <div class="form-control-lg">
+              <%= "#{idx + 1}." %>
+            </div>
+            <%= form.text_field(:name, id: "query_name", name: "query_name", class: "form-control form-control-lg") %>
+          </div>
+          <div>
+            <%# <button type="button" class="btn btn-secondary btn-sm"><i class="bi bi-arrow-up"></i></button>
+            <button type="button" class="btn btn-secondary btn-sm"><i class="bi bi-arrow-down"></i></button> %>
+            <% if @list_of_sections.length > 1 %>
+              <a href=<%= "/delete_section/#{section.id}" %> type="button" class="btn btn-danger btn-sm"><i class="bi bi-x"></i></a>
+            <% else %>
+              <a type="button" class="btn btn-danger btn-sm disabled"><i class="bi bi-x"></i></a>
+            <% end %>
+          </div>
+        </div>
+        <div class="card mb-2">
+          <div class="card-body">
+            <%= form.rich_text_area(:content, id: "query_content", name: "query_content") %>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+        <button type="submit" class="btn btn-secondary">Save changes</button>
+        <a href="<%= "/generate_section/#{section.id}" %>" class="btn btn-primary">Generate content</a>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
 </div>
 
-<article>
-  <ol>
-    <% @list_of_sections.each do |section| %>
-      <li>
-        <%= section.name %>
-      </li>
+<div class="mb-3">
+  <hr>
+  <form action="/insert_section" method="post">
+    <input hidden name="query_name" value="...">
+    <input hidden name="query_article_id" value=<%= @the_article.id %>>
+    <input hidden name="query_content" value="">
+    <input hidden name="query_placement" value="<%= (@list_of_sections.last.placement.to_i + 1).to_s %>">
+    <% if @list_of_sections.length < 8%>
+      <button type="submit" class="btn btn-secondary">
+        Add new section
+      </button>
+    <% else %>
+      <button type="submit" class="btn btn-secondary" disabled>
+        Add new section
+      </button>
     <% end %>
-  </ol>
-</article>
+  </form>
+</div>

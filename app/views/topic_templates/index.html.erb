@@ -1,51 +1,38 @@
-<h1>
-  List of all topics
-</h1>
-
-<hr>
-
-<article>
-  <header>
-    <h2>
-      Add a new topic
-    </h2>
-  </header>
-
-  <form action="/insert_topic" method="post">
-    <div>
-      <label for="name_box">
-        Name
-      </label>
-
-      <input type="text" id="name_box" name="query_name">
+<div class="card text-center mt-3 mb-3">
+  <div class="card-body">
+    <div class="mb-3">
+      <h1 class="card-title">What topic would you like to write about?</h1>
     </div>
-
-    <div>
-      <label for="description_box">
-        Description
-      </label>
-
-      <input type="text" id="description_box" name="query_description">
+    <div class="container-fluid">
+      <form action="/generate_topic" method="post">
+        <div class="input-group mb-3 justify-content-center">
+          <input class="form-control-lg w-75" type="text" id="topic_desc" name="query_description" placeholder="Investment Strategy, Python Coding, ..." />
+          <button class="btn btn-outline-secondary" type="button">
+            <i class="bi bi-arrow-right-circle"></i>
+          </button>
+        </div>
+      </form>
     </div>
+  </div>
+</div>
 
-    <button type="submit">
-      Create topic
-    </button>
-  </form>
-</article>
-
-<hr>
-
-<article>
-  <ul>
+<div class="card">
+  <div class="card-body">
+    <h4>Or revisit your old topics...</h4>
     <% @list_of_topics.each do |a_topic| %>
-      <li>
-        <a href="/topics/<%= a_topic.id %>">
-          Topic #<%= a_topic.id %>
-        </a>
-      </li>
+      <a class="card link-underline link-underline-opacity-0 mb-3" href=<%= "/topics/#{a_topic.id}" %> >
+        <div class="card-header d-flex justify-content-between">
+          <h5>
+            <%= a_topic.name %>
+          </h5>
+          <i class="bi bi-arrow-right-circle"></i>
+        </div>
+        <div class="card-body">
+          <div>
+            <%= a_topic.description %>
+          </div>
+        </div>
+      </a>
     <% end %>
-  </ul>
-</article>
-
-<hr>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 <nav style="--bs-breadcrumb-divider: '|';" aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item"><a href="/topics">Home</a></li>
     <li class="breadcrumb-item active" aria-current="page">Topic</li>
   </ol>
 </nav>
@@ -76,7 +76,7 @@
   <div class="card-body">
     <h4>Or revisit your old articles...</h4>
     <% @list_of_articles.each do |a_article| %>
-      <a class="card link-underline link-underline-opacity-0" href=<%= "/articles/#{a_article.id}" %> >
+      <a class="card link-underline link-underline-opacity-0 mb-3" href=<%= "/articles/#{a_article.id}" %> >
         <div class="card-header d-flex justify-content-between">
           <h5>
             <%= a_article.title %>

@@ -2,12 +2,12 @@ Rails.application.routes.draw do
 
   get("/", { :controller => "pages", :action => "home" })
 
-  #------------------------------
-  # Routes for the Topic resource:
-
   post("/generate_topic", { :controller => "topics", :action => "generate" })
   post("/generate_article", { :controller => "articles", :action => "generate" })
+  post("/generate_section/:path_id", { :controller => "sections", :action => "generate" })
 
+  #------------------------------
+  # Routes for the Topic resource:
 
   # CREATE
   post("/insert_topic", { :controller => "topics", :action => "create" })

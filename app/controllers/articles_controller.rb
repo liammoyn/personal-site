@@ -23,7 +23,7 @@ class ArticlesController < ApplicationController
     topic_id = params.fetch("query_topic_id")
     user_description = params.fetch("query_user_description")
 
-    topic_generation_system_prompt = "You are a tool for generating articles on different topics for students using the notes they have acquired. You will read user descriptions of the article they want to write about and format their idea into a topic, short summary, and proposed section outline. "
+    topic_generation_system_prompt = "You are a tool for generating articles on different topics for students using the notes they have acquired. You will read user descriptions of the article they want to write about and format their idea into a title, short summary, and proposed section outline. The title should use the language of the user input and be short and straightforward. There should be no more than 5 sections and each one should have a title that makes it clear what the section is about. The summary should cover the same sections described but in a sentence format."
     topic_generation_schema = <<~JSON
     {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -63,31 +63,13 @@ class ArticlesController < ApplicationController
     }
     JSON
 
-    # c = AI::Chat.new
-    # c.system(topic_generation_system_prompt)
-    # c.user(user_description)
-    # c.schema = topic_generation_schema
+    c = AI::Chat.new
+    c.system(topic_generation_system_prompt)
+    c.user(user_description)
+    c.schema = topic_generation_schema
 
-    # ai_response = c.generate!
-    # data = ai_response[:content]
-    data = {
-      :title => "How to code like a snake",
-      :summary => user_description,
-      :sections => [
-        {
-          :title => "What is a snake?",
-          :order => 1
-        },
-        {
-          :title => "What is coding?",
-          :order => 2
-        },
-        {
-          :title => "How to type when you have no fingers",
-          :order => 3
-        }
-      ]
-    }
+    ai_response = c.generate!
+    data = ai_response[:content]
 
     the_article = Article.new
     the_article.topic_id = topic_id
@@ -133,7 +115,6 @@ class ArticlesController < ApplicationController
     the_id = params.fetch("path_id")
     the_article = Article.where({ :id => the_id }).at(0)
 
-    the_article.topic_id = params.fetch("query_topic_id")
     the_article.title = params.fetch("query_title")
     the_article.summary = params.fetch("query_summary")
 
