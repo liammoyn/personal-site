@@ -1,96 +1,27 @@
+<nav style="--bs-breadcrumb-divider: '|';" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item"><a href=<%= "/topics/#{@the_article.topic_id}"%>>Topic</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Article</li>
+  </ol>
+</nav>
+
 <h1>
-  Article #<%= @the_article.id %> details
+  <%= @the_article.title %>
 </h1>
 
-<article>
-  <div>
-    <a href="/articles">
-      Go back
-    </a>
+<div class="card">
+  <div class="card-body">
+    <%= @the_article.summary %>
   </div>
-
-  <div>
-    <a href="/delete_article/<%= @the_article.id %>">
-      Delete article
-    </a>
-  </div>
-  <dl>
-    <dt>
-      Topic
-    </dt>
-    <dd>
-      <%= @the_article.topic_id %>
-    </dd>
-
-    <dt>
-      Title
-    </dt>
-    <dd>
-      <%= @the_article.title %>
-    </dd>
-
-    <dt>
-      Summary
-    </dt>
-    <dd>
-      <%= @the_article.summary %>
-    </dd>
-
-    <dt>
-      Created at
-    </dt>
-    <dd>
-      <%= time_ago_in_words(@the_article.created_at) %> ago
-    </dd>
-
-    <dt>
-      Updated at
-    </dt>
-    <dd>
-      <%= time_ago_in_words(@the_article.updated_at) %> ago
-    </dd>
-  </dl>
-</article>
-
-<hr>
-
+</div>
 
 <article>
-  <header>
-    <h2>
-      Edit article
-    </h2>
-  </header>
-
-  <form action="/modify_article/<%= @the_article.id %>"  method="post" >
-    <div>
-      <label for="topic_id_box">
-        Topic
-      </label>
-
-      <input type="text" id="topic_id_box" name="query_topic_id" value="<%= @the_article.topic_id %>">
-    </div>
-
-    <div>
-      <label for="title_box">
-        Title
-      </label>
-
-      <input type="text" id="title_box" name="query_title" value="<%= @the_article.title %>">
-    </div>
-
-    <div>
-      <label for="summary_box">
-        Summary
-      </label>
-
-      <input type="text" id="summary_box" name="query_summary" value="<%= @the_article.summary %>">
-    </div>
-
-    <button type="submit">
-      Update article
-    </button>
-  </form>
+  <ol>
+    <% @list_of_sections.each do |section| %>
+      <li>
+        <%= section.name %>
+      </li>
+    <% end %>
+  </ol>
 </article>
-
-<hr>

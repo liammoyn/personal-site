@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   # Routes for the Topic resource:
 
   post("/generate_topic", { :controller => "topics", :action => "generate" })
+  post("/generate_article", { :controller => "articles", :action => "generate" })
+
+
   # CREATE
   post("/insert_topic", { :controller => "topics", :action => "create" })
 

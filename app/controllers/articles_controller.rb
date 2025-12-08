@@ -11,10 +11,108 @@ class ArticlesController < ApplicationController
     the_id = params.fetch("path_id")
 
     matching_articles = Article.where({ :id => the_id })
+    matching_sections = Section.where({ :article_id => the_id }).order(:placement)
 
     @the_article = matching_articles.at(0)
+    @list_of_sections = matching_sections
 
     render({ :template => "article_templates/show" })
+  end
+
+  def generate
+    topic_id = params.fetch("query_topic_id")
+    user_description = params.fetch("query_user_description")
+
+    topic_generation_system_prompt = "You are a tool for generating articles on different topics for students using the notes they have acquired. You will read user descriptions of the article they want to write about and format their idea into a topic, short summary, and proposed section outline. "
+    topic_generation_schema = <<~JSON
+    {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "RootObject",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "A short title for the article."
+        },
+        "summary": {
+          "type": "string",
+          "description": "A longer description or summary."
+        },
+        "sections": {
+          "type": "array",
+          "description": "A list of article sections.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string",
+                "description": "Section title."
+              },
+              "order": {
+                "type": "integer",
+                "description": "Sorting order of the section."
+              }
+            },
+            "required": ["title", "order"],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["title", "summary", "sections"],
+      "additionalProperties": false
+    }
+    JSON
+
+    # c = AI::Chat.new
+    # c.system(topic_generation_system_prompt)
+    # c.user(user_description)
+    # c.schema = topic_generation_schema
+
+    # ai_response = c.generate!
+    # data = ai_response[:content]
+    data = {
+      :title => "How to code like a snake",
+      :summary => user_description,
+      :sections => [
+        {
+          :title => "What is a snake?",
+          :order => 1
+        },
+        {
+          :title => "What is coding?",
+          :order => 2
+        },
+        {
+          :title => "How to type when you have no fingers",
+          :order => 3
+        }
+      ]
+    }
+
+    the_article = Article.new
+    the_article.topic_id = topic_id
+    the_article.title = data[:title]
+    the_article.summary = data[:summary]
+
+    if the_article.valid?
+      the_article.save
+
+      data[:sections].each do |section|
+        the_section = Section.new
+        the_section.name = section[:title]
+        the_section.article_id = the_article.id
+        the_section.placement = section[:order]
+        the_section.text_content = ""
+
+        if the_section.valid?
+          the_section.save
+        end
+      end
+
+      redirect_to("/articles/#{the_article.id}", { :notice => "Article created successfully." })
+    else
+      redirect_to("/topics/#{topic_id}", { :alert => the_article.errors.full_messages.to_sentence })
+    end
   end
 
   def create
