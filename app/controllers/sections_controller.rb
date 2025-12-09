@@ -1,21 +1,4 @@
 class SectionsController < ApplicationController
-  def index
-    matching_sections = Section.all
-
-    @list_of_sections = matching_sections.order({ :created_at => :desc })
-
-    render({ :template => "section_templates/index" })
-  end
-
-  def show
-    the_id = params.fetch("path_id")
-
-    matching_sections = Section.where({ :id => the_id })
-
-    @the_section = matching_sections.at(0)
-
-    render({ :template => "section_templates/show" })
-  end
 
   def generate
     section_id = params.fetch("path_id")

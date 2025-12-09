@@ -1,11 +1,4 @@
 class ArticlesController < ApplicationController
-  def index
-    matching_articles = Article.all
-
-    @list_of_articles = matching_articles.order({ :created_at => :desc })
-
-    render({ :template => "article_templates/index" })
-  end
 
   def show
     the_id = params.fetch("path_id")

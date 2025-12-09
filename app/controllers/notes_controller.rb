@@ -1,21 +1,4 @@
 class NotesController < ApplicationController
-  def index
-    matching_notes = Note.all
-
-    @list_of_notes = matching_notes.order({ :created_at => :desc })
-
-    render({ :template => "note_templates/index" })
-  end
-
-  def show
-    the_id = params.fetch("path_id")
-
-    matching_notes = Note.where({ :id => the_id })
-
-    @the_note = matching_notes.at(0)
-
-    render({ :template => "note_templates/show" })
-  end
 
   def file
     the_note = Note.new

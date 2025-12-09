@@ -31,13 +31,7 @@ Rails.application.routes.draw do
   # CREATE
   post("/insert_note", { :controller => "notes", :action => "create" })
 
-  # READ
-  get("/notes", { :controller => "notes", :action => "index" })
-
-  get("/notes/:path_id", { :controller => "notes", :action => "show" })
-
   # UPDATE
-
   post("/modify_note/:path_id", { :controller => "notes", :action => "update" })
 
   # DELETE
@@ -49,13 +43,9 @@ Rails.application.routes.draw do
   # CREATE
   post("/insert_article", { :controller => "articles", :action => "create" })
 
-  # READ
-  get("/articles", { :controller => "articles", :action => "index" })
-
   get("/articles/:path_id", { :controller => "articles", :action => "show" })
 
   # UPDATE
-
   post("/modify_article/:path_id", { :controller => "articles", :action => "update" })
 
   # DELETE
@@ -67,13 +57,7 @@ Rails.application.routes.draw do
   # CREATE
   post("/insert_section", { :controller => "sections", :action => "create" })
 
-  # READ
-  get("/sections", { :controller => "sections", :action => "index" })
-
-  get("/sections/:path_id", { :controller => "sections", :action => "show" })
-
   # UPDATE
-
   post("/modify_section/:path_id", { :controller => "sections", :action => "update" })
 
   # DELETE
